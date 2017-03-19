@@ -1,0 +1,9 @@
+body {
+    background-color: gray;
+}
+
+#canvas {
+    
+    height: 200px;
+    background: white;
+}
