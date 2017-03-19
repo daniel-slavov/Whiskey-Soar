@@ -1,7 +1,7 @@
 # Whiskey-Soar
 
 Draw - Daniel, Dancho <br>
-keyDownHandler, keyUpHandler, mouseMoveHandler - Darin
-ColisionDetection - Peter, Martin
-drawBall, drawPaddle, drawScore, drawLives - Yoanna
-drawBricks - Kiril, Ceco
+keyDownHandler, keyUpHandler, mouseMoveHandler - Darin<br>
+ColisionDetection - Peter, Martin<br>
+drawBall, drawPaddle, drawScore, drawLives - Yoanna<br>
+drawBricks - Kiril, Ceco<br>
