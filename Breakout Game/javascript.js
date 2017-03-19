@@ -22,3 +22,24 @@ function drawBall() {
 function drawPaddle() {
     
 }
+
+function collisionDetection() {
+
+    for(let c = 0; c < brickColumnCount; c++ ) {
+        for (let r = 0; r < brickRowCount; r++) {
+
+            let brickToCheck = bricks[c][r];
+
+            if (brickToCheck.status === 1) {
+
+                if ((brickToCheck.x < x) && ((brickToCheck.x + brickWidth) > x) && (brickToCheck.y < y) && ((brickToCheck.y + brickHeight) > y)) {
+                    
+                    brickToCheck.status = 0;
+
+                    dy = -dy;
+                }
+
+            }
+        }
+    }   
+}
