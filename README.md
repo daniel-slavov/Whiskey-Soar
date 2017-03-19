@@ -1,6 +1,6 @@
 # Whiskey-Soar
 
-Draw - Daniel, Dancho \n
+Draw - Daniel, Dancho <\br>
 keyDownHandler, keyUpHandler, mouseMoveHandler - Darin
 ColisionDetection - Peter, Martin
 drawBall, drawPaddle, drawScore, drawLives - Yoanna
