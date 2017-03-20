@@ -6,8 +6,7 @@ html, body {
 }
 
 #canvas {
-    width: 90%;
-    
+    /*width: 90%;*/   
     margin: 0px;
     float: left;
     position: relative;
