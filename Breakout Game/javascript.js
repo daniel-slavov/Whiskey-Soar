@@ -3,14 +3,14 @@ var context = canvas.getContext('2d');
 context.translate(0.5, 0.5);
 
 var ballRadius = 0.01 * canvas.width;
-var x = canvas.width / 2;
-var y = canvas.height - (0.05 * canvas.height);
+var x;
+var y;
 var dx = (Math.random() < 0.5) ? -2 : 2;
 var dy = -2;
 var paddleHeight;
 var paddleWidth;
-var paddleX = (canvas.width - paddleWidth) / 2;
-var paddleY = canvas.height - (0.05 * canvas.height);
+var paddleX;
+var paddleY;
 var rightPressed = false;
 var leftPressed = false;
 var brickRowCount = 5;
@@ -40,7 +40,7 @@ function drawBall() {
 
 function drawPaddle() {
     context.beginPath();
-    context.rect(paddleX, canvas.height - (0.05 * canvas.height), paddleWidth, paddleHeight);
+    context.rect(paddleX, paddleY, paddleWidth, paddleHeight);
     context.fillStyle = "#0095DD";
     context.fill();
     context.closePath();
@@ -112,30 +112,25 @@ function movePaddle() {
 }
 
 function ballIsInRange() {
+    // right & left check
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
         dx = -dx;
     }
-
+    // top check
     if (y + dy < ballRadius) {
         dy = -dy;
-    } else if (y + dy > canvas.height - ballRadius - paddleHeight) {
-        if (x > paddleX && x < paddleX + paddleWidth) {
+    }
+    // bottom check
+    if (y + dy > canvas.height - ballRadius - 2 * paddleHeight && x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
-        }
+    } else if (y + dy > canvas.height + ballRadius) {
+        lives--;
 
-        if (y + dy > canvas.height - ballRadius - paddleHeight && !(x > paddleX && x < paddleX + paddleWidth)) {
-            lives--;
-
-            if (!lives) {
-                alert("GAME OVER");
-                document.location.reload();
-            } else {
-                x = canvas.width / 2;
-                y = canvas.height - paddleHeight - ballRadius;
-                dx = 2;
-                dy = -2;
-                paddleX = (canvas.width - paddleWidth) / 2;
-            }
+        if (!lives) {
+            alert("GAME OVER");
+            document.location.reload();
+        } else {
+            resizeCanvas();
         }
     }
 }
@@ -143,12 +138,13 @@ function ballIsInRange() {
 function resizeCanvas() {
     canvas.width = (9 / 10) * window.innerWidth;
     canvas.height = (9 / 10) * window.innerHeight;
-    ballRadius = 0.01 * canvas.width;
-    paddleHeight = 0.015 * canvas.width;
-    paddleWidth = 0.2 * canvas.height;
+    ballRadius = 0.01 * (canvas.width + canvas.height);
+    paddleHeight = 0.02 * canvas.height;
+    paddleWidth = 0.2 * canvas.width;
     paddleX = (canvas.width - paddleWidth) / 2;
+    paddleY = canvas.height - (paddleHeight * 2);
     x = canvas.width / 2;
-    y = canvas.height - (0.05 * canvas.height) - ballRadius;
+    y = paddleY - ballRadius;
 }
 
 function checkWindowSize() {
@@ -168,7 +164,7 @@ function draw() {
     drawPaddle();
     drawScore();
     drawLives();
-    collisionDetection();
+    //collisionDetection();
     ballIsInRange();
     movePaddle();
 
