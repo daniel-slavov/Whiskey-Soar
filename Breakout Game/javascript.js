@@ -4,7 +4,7 @@ context.translate(0.5, 0.5);
 
 var ballRadius = 0.01 * canvas.width;
 var x = canvas.width / 2;
-var y = canvas.height - 30;
+var y = canvas.height - (0.05 * canvas.height);
 var dx = (Math.random() < 0.5) ? -2 : 2;
 var dy = -2;
 var paddleHeight;
@@ -25,14 +25,14 @@ var lives = 3;
 var windowHeight = window.innerHeight;
 var windowWidth = window.innerWidth;
 
-function draw() {
-    drawBall();
-}
-setInterval(draw, 10);
+// function draw() {
+//     drawBall();
+// }
+// setInterval(draw, 10);
 
 function drawBall() {
     context.beginPath();
-    context.arc(canvas.width / 2, 50, ballRadius, 0, Math.PI * 2);
+    context.arc(x, y, ballRadius, 0, Math.PI * 2);
     context.fillStyle = "#0095DD";
     context.fill();
     context.closePath();
@@ -147,6 +147,8 @@ function resizeCanvas() {
     paddleHeight = 0.015 * canvas.width;
     paddleWidth = 0.2 * canvas.height;
     paddleX = (canvas.width - paddleWidth) / 2;
+    x = canvas.width / 2;
+    y = canvas.height - (0.05 * canvas.height) - ballRadius;
 }
 
 function checkWindowSize() {
@@ -156,10 +158,12 @@ function checkWindowSize() {
 }
 
 resizeCanvas();
+
+
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     checkWindowSize();
-    drawBricks();
+    //drawBricks();
     drawBall();
     drawPaddle();
     drawScore();
