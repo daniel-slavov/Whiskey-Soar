@@ -45,6 +45,9 @@ function drawPaddle() {
 
 function collisionDetection() {
 
+    var sideZoneWidth = brickWidth / 8;
+    var centralZoneWidth = (brickWidth / 4) * 3;
+
     for(let c = 0; c < brickColumnCount; c++ ) {
         for (let r = 0; r < brickRowCount; r++) {
 
@@ -52,16 +55,36 @@ function collisionDetection() {
 
             if (brickToCheck.status === 1) {
 
-                if ((brickToCheck.x < x) && ((brickToCheck.x + brickWidth) > x) && (brickToCheck.y < y) && ((brickToCheck.y + brickHeight) > y)) {
-                    
-                    brickToCheck.status = 0;
+                // Check if ball hits center zone - changes the movement on the Y axis
+                if ( brickToCheck.x + sideZoneWidth < x && (brickToCheck.x + brickWidth - sideZoneWidth) > x &&
+                    (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
-                    dy = -dy;
+                        brickToCheck.status = 0;
+
+                        dy = -dy;
+
+                } 
+                // Check if ball hits LEFT side zone - changes the movement on the X axis
+                if (brickToCheck.x - ballRadius < x && (brickToCheck.x + sideZoneWidth) > x &&
+                    (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
+
+                        brickToCheck.status = 0;
+
+                        dx = -dx;
+
                 }
 
+                // Check if ball hits RIGHT side zone - changes the movement on the X axis
+                if ((brickToCheck.x + brickWidth - sideZoneWidth) < x && (brickToCheck.x + brickWidth + ballRadius) > x &&
+                    (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
+
+                    brickToCheck.status = 0;
+
+                    dx = -dx;
+                }     
             }
         }
-    }   
+    }
 }
 
 function movePaddle(){
