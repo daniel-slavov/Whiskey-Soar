@@ -30,6 +30,36 @@ var windowWidth = window.innerWidth;
 // }
 // setInterval(draw, 10);
 
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
+
+function keyDownHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = true;
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = true;
+    }
+}
+function keyUpHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = false;
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = false;
+    }
+}
+//Allow moving the paddle with the mouse
+function mouseMoveHandler(e) {
+     var mousePosition=e.clientX,
+         distanceToCurrentWindow=canvas.offsetLeft,
+         currentPosition = mousePosition - distanceToCurrentWindow;
+    if(currentPosition > 0 && currentPosition < canvas.width) {
+        paddleX = currentPosition - paddleWidth/2;
+    }
+}
+
 function drawBall() {
     context.beginPath();
     context.arc(x, y, ballRadius, 0, Math.PI * 2);

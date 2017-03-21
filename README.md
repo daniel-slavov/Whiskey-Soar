@@ -1,7 +1,7 @@
 # Whiskey-Soar
 
 Draw - Daniel, Dancho <br>
-keyDownHandler, keyUpHandler, mouseMoveHandler - Darin
+<strong>[Ready]keyDownHandler, keyUpHandler, mouseMoveHandler</strong> - Darin
 <br>
 <strong>[Ready]ColisionDetection</strong> - Peter, Martin
 <br>
