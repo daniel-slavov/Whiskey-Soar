@@ -30,7 +30,7 @@ var bricks = [];
 for (col = 0; col < brickColumnCount; col += 1) {
     bricks[col] = [];
     for (row = 0; row < brickRowCount; row +=1) {
-        bricks[col][row] = { x: 0, y: 0 };
+        bricks[col][row] = { x: 0, y: 0, status :1 };
     }
 }
 
@@ -98,11 +98,13 @@ function drawBricks() {
             bricks[col][row].x = currentBrickX;
             bricks[col][row].y = currentBrickY;
 
-            context.beginPath();
-            context.rect(currentBrickX, currentBrickY, brickWidth, brickHeight);
-            context.fillStyle = "#0095DD";
-            context.fill();
-            context.closePath();
+            if (bricks[col][row].status === 1) {
+                context.beginPath();
+                context.rect(currentBrickX, currentBrickY, brickWidth, brickHeight);
+                context.fillStyle = "#0095DD";
+                context.fill();
+                context.closePath();
+            }
         }
     }
 }
@@ -232,7 +234,7 @@ function draw() {
     drawPaddle();
     drawScore();
     drawLives();
-    //collisionDetection();
+    collisionDetection();
     ballIsInRange();
     movePaddle();
 
