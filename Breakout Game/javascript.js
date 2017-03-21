@@ -13,27 +13,13 @@ var paddleX;
 var paddleY;
 var rightPressed = false;
 var leftPressed = false;
-
 var brickRowCount = 5;
-var brickColumnCount = 8;
-var brickWidth;
-var brickHeight;
-var brickSpacing;
-var brickClusterPadding;
-var brickClusterWidth;
-var brickClusterPaddingToCanvasWidthRatio = 0.05;
-var brickHeightToWidthRatio = 0.25;
-var brickSpacingToWidthRatio = 0.1;
-
-// Init bricks
-var bricks = [];
-for (col = 0; col < brickColumnCount; col += 1) {
-    bricks[col] = [];
-    for (row = 0; row < brickRowCount; row +=1) {
-        bricks[col][row] = { x: 0, y: 0 };
-    }
-}
-
+var brickColumnCount = 3;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
 var score = 0;
 var lives = 3;
 var windowHeight = window.innerHeight;
@@ -88,23 +74,6 @@ function drawPaddle() {
     context.fillStyle = "#0095DD";
     context.fill();
     context.closePath();
-}
-
-function drawBricks() {
-    for (col = 0; col < brickColumnCount; col += 1) {
-        for (row = 0; row < brickRowCount; row += 1) {
-            var currentBrickX = brickClusterPadding + (col * brickSpacing) + (col * brickWidth); 
-            var currentBrickY = brickClusterPadding + (row * brickSpacing) + (row * brickHeight); 
-            bricks[col][row].x = currentBrickX;
-            bricks[col][row].y = currentBrickY;
-
-            context.beginPath();
-            context.rect(currentBrickX, currentBrickY, brickWidth, brickHeight);
-            context.fillStyle = "#0095DD";
-            context.fill();
-            context.closePath();
-        }
-    }
 }
 
 function drawLives() {
@@ -206,13 +175,6 @@ function resizeCanvas() {
     paddleY = canvas.height - (paddleHeight * 2);
     x = canvas.width / 2;
     y = paddleY - ballRadius;
-
-    // Bricks
-    brickClusterPadding = brickClusterPaddingToCanvasWidthRatio * canvas.width;
-    brickClusterWidth = canvas.width - (2 * brickClusterPadding);
-    brickSpacing = brickClusterWidth / (((brickColumnCount) * (1 / brickSpacingToWidthRatio)) + (brickColumnCount - 1));
-    brickWidth = brickSpacing * (1 / brickSpacingToWidthRatio);
-    brickHeight = brickWidth * brickHeightToWidthRatio;
 }
 
 function checkWindowSize() {
@@ -227,7 +189,7 @@ resizeCanvas();
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     checkWindowSize();
-    drawBricks();
+    //drawBricks();
     drawBall();
     drawPaddle();
     drawScore();
