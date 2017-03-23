@@ -78,7 +78,7 @@ function mouseMoveHandler(e) {
 function drawBall() {
     context.beginPath();
     context.arc(x, y, ballRadius, 0, Math.PI * 2);
-    context.fillStyle = "#0095DD";
+    context.fillStyle = "#841F27";
     context.fill();
     context.closePath();
 }
@@ -86,7 +86,7 @@ function drawBall() {
 function drawPaddle() {
     context.beginPath();
     context.rect(paddleX, paddleY, paddleWidth, paddleHeight);
-    context.fillStyle = "#0095DD";
+    context.fillStyle = "#841F27";
     context.fill();
     context.closePath();
 }
@@ -102,7 +102,7 @@ function drawBricks() {
             if (bricks[col][row].status === 1) {
                 context.beginPath();
                 context.rect(currentBrickX, currentBrickY, brickWidth, brickHeight);
-                context.fillStyle = "#0095DD";
+                context.fillStyle = "#841F27";
                 context.fill();
                 context.closePath();
             }
