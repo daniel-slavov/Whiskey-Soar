@@ -7,6 +7,7 @@ var x;
 var y;
 var dx = (Math.random() < 0.5) ? -2 : 2;
 var dy = -2;
+var actualSpeed = Math.sqrt((dx * dx) + (dy * dy));
 var paddleHeight;
 var paddleWidth;
 var paddleX;
@@ -185,7 +186,8 @@ function ballIsInRange() {
     }
     // bottom check
     if (y + dy > canvas.height - ballRadius - 2 * paddleHeight && x > paddleX && x < paddleX + paddleWidth) {
-            dy = -dy;
+        bounceOffPaddle();    
+            //dy = -dy;
     } else if (y + dy > canvas.height + ballRadius) {
         lives--;
 
@@ -195,6 +197,76 @@ function ballIsInRange() {
         } else {
             resizeCanvas();
         }
+    }
+}
+
+function bounceOffPaddle() {
+    var paddleCenterX = paddleX + (paddleWidth / 2);
+    var xySpeedRatio;
+    var xySpeedRatioCap = 5;
+
+    function setDY() {
+        dy = (-1) * Math.sqrt((actualSpeed * actualSpeed) - (dx * dx))
+    }
+
+    function setCappedXYRatio(side) {
+        if (side == "left") {
+            dx = (-1) * actualSpeed * (xySpeedRatioCap / (xySpeedRatioCap + 1))
+            setDY();
+        } else if (side == "right") {
+            dx = actualSpeed * (xySpeedRatioCap / (xySpeedRatioCap + 1))
+            //dy = (-1) * actualSpeed * (1 / xySpeedRatioCap);
+            setDY();
+        }
+    }
+
+    if (x >= paddleX && x <= paddleX + paddleWidth) {
+        // Ball falls on top of the paddle
+        if (x == paddleCenterX) {
+            // Ball falls on the center
+            dx = 0;
+            //dy = (-1) * actualSpeed;
+            setDY();
+        }
+
+        if (x < paddleCenterX) {
+            // Ball falls on the left side
+            if(x == paddleX) {
+                // Ball falls on the edge
+                setCappedXYRatio("left");
+            } else {
+                // Ball falls between the edge and the center
+                xySpeedRatio = ((paddleWidth / 2) / ((paddleWidth / 2) - (paddleCenterX - x))) - 1;
+                if (xySpeedRatio > xySpeedRatioCap) {
+                    xySpeedRatio = xySpeedRatioCap;
+                }
+
+                dx = (-1) * actualSpeed * (xySpeedRatio / (xySpeedRatio + 1));
+                //dy = (-1) * actualSpeed * (1 / xySpeedRatio);
+                setDY();
+            }
+        }
+        
+        if (x > paddleCenterX) {
+            // Ball falls on the right side
+            if(x == paddleX + paddleWidth) {
+                // Ball falls on the edge
+                setCappedXYRatio("right");
+            } else {
+                // Ball falls between the edge and the center
+                xySpeedRatio = ((paddleWidth / 2) / ((paddleWidth / 2) - (x - paddleCenterX))) - 1;
+                if (xySpeedRatio > xySpeedRatioCap) {
+                    xySpeedRatio = xySpeedRatioCap;
+                }
+
+                dx = actualSpeed * (xySpeedRatio / (xySpeedRatio + 1));
+                //dy = (-1) * actualSpeed * (1 / xySpeedRatio);
+                setDY();
+            }
+        }
+
+    } else {
+        dx = (-1) * dx;
     }
 }
 
