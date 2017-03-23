@@ -139,6 +139,7 @@ function collisionDetection() {
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
                     brickToCheck.status = 0;
+                    score += 10;
 
                     dy = -dy;
 
@@ -148,7 +149,8 @@ function collisionDetection() {
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
                     brickToCheck.status = 0;
-
+                    score += 10;
+                    
                     dx = -dx;
 
                 }
@@ -158,7 +160,8 @@ function collisionDetection() {
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
                     brickToCheck.status = 0;
-
+                    score += 10;
+                    
                     dx = -dx;
                 }
             }
