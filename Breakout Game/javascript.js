@@ -311,6 +311,12 @@ function checkWindowSize() {
         resizeCanvas();
     }
 }
+//Add some sounds
+function startSoundTrack()
+{
+var audio=document.getElementById("audio");
+audio.play();
+}
 
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -323,6 +329,7 @@ function draw() {
     collisionDetection();
     ballIsInRange();
     movePaddle();
+    startSoundTrack();
 
     x += dx;
     y += dy;

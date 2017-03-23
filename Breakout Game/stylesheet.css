@@ -60,3 +60,7 @@ button:hover {
     width: 60%;
     margin-bottom: 25px;
 }
+
+audio{
+    display:none;
+}
