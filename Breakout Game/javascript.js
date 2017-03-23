@@ -5,9 +5,9 @@ context.translate(0.5, 0.5);
 var ballRadius = 0.01 * canvas.width;
 var x;
 var y;
-var dx = (Math.random() < 0.5) ? -2 : 2;
-var dy = -2;
-var actualSpeed = Math.sqrt((dx * dx) + (dy * dy));
+var dx;
+var dy;
+var actualSpeed;
 var paddleHeight;
 var paddleWidth;
 var paddleX;
@@ -33,8 +33,7 @@ for (col = 0; col < brickColumnCount; col += 1) {
     for (row = 0; row < brickRowCount; row += 1) {
         if (row % 2 === 0) {
             bricks[col][row] = { x: 0, y: 0, status: 1 };
-        }
-        else {
+        } else {
             bricks[col][row] = { x: 0, y: 0, status: 2 };
         }
 
@@ -42,14 +41,10 @@ for (col = 0; col < brickColumnCount; col += 1) {
 }
 
 var score = 0;
+const maxPoints = 560;
 var lives = 3;
 var windowHeight = window.innerHeight;
 var windowWidth = window.innerWidth;
-
-// function draw() {
-//     drawBall();
-// }
-// setInterval(draw, 10);
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -58,16 +53,15 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 function keyDownHandler(e) {
     if (e.keyCode == 39) {
         rightPressed = true;
-    }
-    else if (e.keyCode == 37) {
+    } else if (e.keyCode == 37) {
         leftPressed = true;
     }
 }
+
 function keyUpHandler(e) {
     if (e.keyCode == 39) {
         rightPressed = false;
-    }
-    else if (e.keyCode == 37) {
+    } else if (e.keyCode == 37) {
         leftPressed = false;
     }
 }
@@ -110,8 +104,7 @@ function drawBricks() {
                 context.rect(currentBrickX, currentBrickY, brickWidth, brickHeight);
                 if (row % 2 === 0) {
                     context.fillStyle = "#841F27";
-                }
-                else {
+                } else {
                     context.fillStyle = "#FFFF00";
                     if (bricks[col][row].status === 1) {
                         context.fillStyle = "#841F27";
@@ -126,13 +119,13 @@ function drawBricks() {
 
 function drawLives() {
     context.font = "16px Arial";
-    context.fillStyle = "#0095DD";
+    context.fillStyle = "#841F27";
     context.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 function drawScore() {
     context.font = "16px Arial";
-    context.fillStyle = "#0095DD";
+    context.fillStyle = "#841F27";
     context.fillText("Score: " + score, 8, 20);
 }
 
@@ -152,7 +145,8 @@ function collisionDetection() {
                 if (brickToCheck.x + sideZoneWidth < x && (brickToCheck.x + brickWidth - sideZoneWidth) > x &&
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
-                    brickToCheck.status--;
+                    brickToCheck.status -= 1;
+
                     score += 10;
 
                     dy = -dy;
@@ -162,7 +156,8 @@ function collisionDetection() {
                 if (brickToCheck.x - ballRadius < x && (brickToCheck.x + sideZoneWidth) > x &&
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
-                    brickToCheck.status--;
+                    brickToCheck.status -= 1;
+
                     score += 10;
 
                     dx = -dx;
@@ -173,10 +168,16 @@ function collisionDetection() {
                 if ((brickToCheck.x + brickWidth - sideZoneWidth) < x && (brickToCheck.x + brickWidth + ballRadius) > x &&
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
-                    brickToCheck.status--;
+                    brickToCheck.status -= 1;
                     score += 10;
 
                     dx = -dx;
+                }
+
+                // End of the game
+                if (score === maxPoints) {
+                    alert("You Won");
+                    document.location.reload();
                 }
             }
         }
@@ -186,8 +187,7 @@ function collisionDetection() {
 function movePaddle() {
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
         paddleX += 7;
-    }
-    else if (leftPressed && paddleX > 0) {
+    } else if (leftPressed && paddleX > 0) {
         paddleX -= 7;
     }
 }
@@ -232,7 +232,7 @@ function bounceOffPaddle() {
             setDY();
         } else if (side == "right") {
             dx = actualSpeed * (xySpeedRatioCap / (xySpeedRatioCap + 1))
-            //dy = (-1) * actualSpeed * (1 / xySpeedRatioCap);
+                //dy = (-1) * actualSpeed * (1 / xySpeedRatioCap);
             setDY();
         }
     }
@@ -312,9 +312,6 @@ function checkWindowSize() {
     }
 }
 
-resizeCanvas();
-
-
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     checkWindowSize();
@@ -329,6 +326,48 @@ function draw() {
 
     x += dx;
     y += dy;
-
 }
-setInterval(draw, 10);
+
+// MENU
+function chooseDificulty() {
+    var buttonsContainer = document.getElementById('button-container');
+
+    buttonsContainer.addEventListener("click", function(e) {
+        var clickedButton = e.target;
+        var clickedButtonClass = e.target.getAttribute("class");
+        var buttons = Array.prototype.slice.apply(document.getElementsByTagName('button'));
+        var isButton = clickedButtonClass == 'easy-button' || clickedButtonClass == 'normal-button' ||
+            clickedButtonClass == 'hard-button';
+
+        buttons.forEach(b => b.style.backgroundColor = "#841F27");
+
+        if (isButton) {
+            clickedButton.style.backgroundColor = "#CC0000";
+        }
+
+        switch (clickedButtonClass) {
+            case 'easy-button':
+                dy = -2;
+                dx = (Math.random() < 0.5) ? -2 : 2;
+                break;
+            case 'normal-button':
+                dy = -3.5;
+                dx = (Math.random() < 0.5) ? -3.5 : 3.5;
+                break;
+            case 'hard-button':
+                dy = -5;
+                dx = (Math.random() < 0.5) ? -5 : 5;
+                break;
+            case 'start-button':
+                buttonsContainer.style.display = "none";
+                actualSpeed = Math.sqrt((dx * dx) + (dy * dy));
+
+                // Execution of the code
+                setInterval(draw, 10);
+                break;
+        }
+    });
+}
+
+resizeCanvas();
+chooseDificulty();
