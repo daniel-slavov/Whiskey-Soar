@@ -31,7 +31,13 @@ var bricks = [];
 for (col = 0; col < brickColumnCount; col += 1) {
     bricks[col] = [];
     for (row = 0; row < brickRowCount; row +=1) {
+        if (row % 2 === 0) {
         bricks[col][row] = { x: 0, y: 0, status :1 };
+    }
+    else {
+        bricks[col][row] = { x: 0, y: 0, status :2 };
+    }
+    
     }
 }
 
@@ -99,10 +105,15 @@ function drawBricks() {
             bricks[col][row].x = currentBrickX;
             bricks[col][row].y = currentBrickY;
 
-            if (bricks[col][row].status === 1) {
+            if (bricks[col][row].status > 0) {
                 context.beginPath();
                 context.rect(currentBrickX, currentBrickY, brickWidth, brickHeight);
-                context.fillStyle = "#841F27";
+                if (row % 2 === 0) {
+                    context.fillStyle = "#841F27";
+                }
+                else {
+                    context.fillStyle = "#FFFF00";
+                }
                 context.fill();
                 context.closePath();
             }
@@ -132,13 +143,13 @@ function collisionDetection() {
 
             let brickToCheck = bricks[c][r];
 
-            if (brickToCheck.status === 1) {
+            if (brickToCheck.status > 0) {
 
                 // Check if ball hits center zone - changes the movement on the Y axis
                 if (brickToCheck.x + sideZoneWidth < x && (brickToCheck.x + brickWidth - sideZoneWidth) > x &&
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
-                    brickToCheck.status = 0;
+                    brickToCheck.status--;
                     score += 10;
 
                     dy = -dy;
@@ -148,7 +159,7 @@ function collisionDetection() {
                 if (brickToCheck.x - ballRadius < x && (brickToCheck.x + sideZoneWidth) > x &&
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
-                    brickToCheck.status = 0;
+                    brickToCheck.status--;
                     score += 10;
                     
                     dx = -dx;
@@ -159,9 +170,9 @@ function collisionDetection() {
                 if ((brickToCheck.x + brickWidth - sideZoneWidth) < x && (brickToCheck.x + brickWidth + ballRadius) > x &&
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
 
-                    brickToCheck.status = 0;
+                    brickToCheck.status--;
                     score += 10;
-                    
+
                     dx = -dx;
                 }
             }
