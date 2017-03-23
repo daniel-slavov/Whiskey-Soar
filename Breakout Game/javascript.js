@@ -30,14 +30,14 @@ var brickSpacingToWidthRatio = 0.1;
 var bricks = [];
 for (col = 0; col < brickColumnCount; col += 1) {
     bricks[col] = [];
-    for (row = 0; row < brickRowCount; row +=1) {
+    for (row = 0; row < brickRowCount; row += 1) {
         if (row % 2 === 0) {
-        bricks[col][row] = { x: 0, y: 0, status :1 };
-    }
-    else {
-        bricks[col][row] = { x: 0, y: 0, status :2 };
-    }
-    
+            bricks[col][row] = { x: 0, y: 0, status: 1 };
+        }
+        else {
+            bricks[col][row] = { x: 0, y: 0, status: 2 };
+        }
+
     }
 }
 
@@ -56,28 +56,28 @@ document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
 
 function keyDownHandler(e) {
-    if(e.keyCode == 39) {
+    if (e.keyCode == 39) {
         rightPressed = true;
     }
-    else if(e.keyCode == 37) {
+    else if (e.keyCode == 37) {
         leftPressed = true;
     }
 }
 function keyUpHandler(e) {
-    if(e.keyCode == 39) {
+    if (e.keyCode == 39) {
         rightPressed = false;
     }
-    else if(e.keyCode == 37) {
+    else if (e.keyCode == 37) {
         leftPressed = false;
     }
 }
 //Allow moving the paddle with the mouse
 function mouseMoveHandler(e) {
-     var mousePosition=e.clientX,
-         distanceToCurrentWindow=canvas.offsetLeft,
-         currentPosition = mousePosition - distanceToCurrentWindow;
-    if(currentPosition > 0 && currentPosition < canvas.width) {
-        paddleX = currentPosition - paddleWidth/2;
+    var mousePosition = e.clientX,
+        distanceToCurrentWindow = canvas.offsetLeft,
+        currentPosition = mousePosition - distanceToCurrentWindow;
+    if (currentPosition > 0 && currentPosition < canvas.width) {
+        paddleX = currentPosition - paddleWidth / 2;
     }
 }
 
@@ -100,8 +100,8 @@ function drawPaddle() {
 function drawBricks() {
     for (col = 0; col < brickColumnCount; col += 1) {
         for (row = 0; row < brickRowCount; row += 1) {
-            var currentBrickX = brickClusterPadding + (col * brickSpacing) + (col * brickWidth); 
-            var currentBrickY = brickClusterPadding + (row * brickSpacing) + (row * brickHeight); 
+            var currentBrickX = brickClusterPadding + (col * brickSpacing) + (col * brickWidth);
+            var currentBrickY = brickClusterPadding + (row * brickSpacing) + (row * brickHeight);
             bricks[col][row].x = currentBrickX;
             bricks[col][row].y = currentBrickY;
 
@@ -113,6 +113,9 @@ function drawBricks() {
                 }
                 else {
                     context.fillStyle = "#FFFF00";
+                    if (bricks[col][row].status === 1) {
+                        context.fillStyle = "#841F27";
+                    }
                 }
                 context.fill();
                 context.closePath();
@@ -161,7 +164,7 @@ function collisionDetection() {
 
                     brickToCheck.status--;
                     score += 10;
-                    
+
                     dx = -dx;
 
                 }
@@ -200,8 +203,8 @@ function ballIsInRange() {
     }
     // bottom check
     if (y + dy > canvas.height - ballRadius - 2 * paddleHeight && x > paddleX && x < paddleX + paddleWidth) {
-        bounceOffPaddle();    
-            //dy = -dy;
+        bounceOffPaddle();
+        //dy = -dy;
     } else if (y + dy > canvas.height + ballRadius) {
         lives--;
 
@@ -245,7 +248,7 @@ function bounceOffPaddle() {
 
         if (x < paddleCenterX) {
             // Ball falls on the left side
-            if(x == paddleX) {
+            if (x == paddleX) {
                 // Ball falls on the edge
                 setCappedXYRatio("left");
             } else {
@@ -260,10 +263,10 @@ function bounceOffPaddle() {
                 setDY();
             }
         }
-        
+
         if (x > paddleCenterX) {
             // Ball falls on the right side
-            if(x == paddleX + paddleWidth) {
+            if (x == paddleX + paddleWidth) {
                 // Ball falls on the edge
                 setCappedXYRatio("right");
             } else {
