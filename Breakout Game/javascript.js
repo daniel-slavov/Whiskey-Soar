@@ -312,10 +312,9 @@ function checkWindowSize() {
     }
 }
 //Add some sounds
-function startSoundTrack()
-{
-var audio=document.getElementById("audio");
-audio.play();
+function startSoundTrack() {
+    var audio = document.getElementById("audio");
+    audio.play();
 }
 
 function draw() {
@@ -366,12 +365,14 @@ function chooseDificulty() {
                 dx = (Math.random() < 0.5) ? -5 : 5;
                 break;
             case 'start-button':
-                buttonsContainer.style.display = "none";
-                actualSpeed = Math.sqrt((dx * dx) + (dy * dy));
+                if (dx !== undefined && dy !== undefined) {
+                    buttonsContainer.style.display = "none";
+                    actualSpeed = Math.sqrt((dx * dx) + (dy * dy));
 
-                // Execution of the code
-                setInterval(draw, 10);
-                break;
+                    // Execution of the code
+                    setInterval(draw, 10);
+                    break;
+                }
         }
     });
 }
