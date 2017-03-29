@@ -354,7 +354,7 @@ function draw() {
 }
 
 // MENU
-function chooseDificulty() {
+function startGame() {
     var buttonsContainer = document.getElementById('button-container');
 
     buttonsContainer.addEventListener("click", function(e) {
@@ -397,4 +397,4 @@ function chooseDificulty() {
 }
 
 resizeCanvas();
-chooseDificulty();
+startGame();
