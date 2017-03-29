@@ -134,8 +134,8 @@ function drawScore() {
 
 function collisionDetection() {
 
-    var sideZoneWidth = brickWidth / 8;
-    var centralZoneWidth = (brickWidth / 4) * 3;
+    var sideZoneWidth = brickWidth / 50;
+    var centralZoneWidth = (brickWidth / 25) * 24;
 
     for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
@@ -233,7 +233,7 @@ function bounceOffPaddle() {
             setDY();
         } else if (side == "right") {
             dx = actualSpeed * (xySpeedRatioCap / (xySpeedRatioCap + 1))
-            //dy = (-1) * actualSpeed * (1 / xySpeedRatioCap);
+                //dy = (-1) * actualSpeed * (1 / xySpeedRatioCap);
             setDY();
         }
     }
@@ -347,7 +347,7 @@ function draw() {
 function chooseDificulty() {
     var buttonsContainer = document.getElementById('button-container');
 
-    buttonsContainer.addEventListener("click", function (e) {
+    buttonsContainer.addEventListener("click", function(e) {
         var clickedButton = e.target;
         var clickedButtonClass = e.target.getAttribute("class");
         var buttons = Array.prototype.slice.apply(document.getElementsByTagName('button'));
