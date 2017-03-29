@@ -1,4 +1,20 @@
 # Whiskey-Soar
+Description of the project:
+
+The project is a classic break bricks game. The idea is the user to "break" all the bricks with the ball which should be prevented from dropping out of the screen. The game has 3 difficulty levels where in the easiest one the ball moves the slowest and each next level speeds up the ball speed.
+<br>
+The source code of the game is plain JavaScript and no external libraries are used.
+Major features of the game:
+<br>
+-	3 difficulty levels
+-	2 kinds of bricks
+-	“Responsive” design
+-	Magic point bonus – if you hit in between two bricks it breaks both of them
+-	Sound effects 
+
+
+
+
 
 Defence tasks:
 
