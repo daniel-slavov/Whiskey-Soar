@@ -3,7 +3,9 @@
 Defence tasks:
 
 [Ready] 1. Upload a brief video (2-3 mins) of your application and upload it in YouTube
+
 2. Upload your project in http://best.telerikacademy.com
+
 3. A brief description of your application:
   - Link the video in the description
   - Mandatory refer the github repository of your application
