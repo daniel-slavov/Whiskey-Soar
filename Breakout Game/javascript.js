@@ -14,6 +14,7 @@ var paddleX;
 var paddleY;
 var rightPressed = false;
 var leftPressed = false;
+var isPause = false;
 
 var brickRowCount = 5;
 var brickColumnCount = 8;
@@ -55,6 +56,8 @@ function keyDownHandler(e) {
         rightPressed = true;
     } else if (e.keyCode == 37) {
         leftPressed = true;
+    } else if (e.keyCode === 32) {
+        isPause = !isPause;
     }
 }
 
@@ -140,7 +143,6 @@ function collisionDetection() {
             let brickToCheck = bricks[c][r];
 
             if (brickToCheck.status > 0) {
-
                 // Check if ball hits center zone - changes the movement on the Y axis
                 if (brickToCheck.x + sideZoneWidth < x && (brickToCheck.x + brickWidth - sideZoneWidth) > x &&
                     (brickToCheck.y - ballRadius < y) && ((brickToCheck.y + brickHeight + ballRadius) > y)) {
@@ -161,7 +163,6 @@ function collisionDetection() {
                     score += 10;
 
                     dx = -dx;
-
                 }
 
                 // Check if ball hits RIGHT side zone - changes the movement on the X axis
@@ -232,7 +233,7 @@ function bounceOffPaddle() {
             setDY();
         } else if (side == "right") {
             dx = actualSpeed * (xySpeedRatioCap / (xySpeedRatioCap + 1))
-                //dy = (-1) * actualSpeed * (1 / xySpeedRatioCap);
+            //dy = (-1) * actualSpeed * (1 / xySpeedRatioCap);
             setDY();
         }
     }
@@ -288,13 +289,19 @@ function bounceOffPaddle() {
 }
 
 function resizeCanvas() {
+    // Window
     canvas.width = (9 / 10) * window.innerWidth;
     canvas.height = (9 / 10) * window.innerHeight;
+
+    // Ball
     ballRadius = 0.01 * (canvas.width + canvas.height);
+
+    // Paddle
     paddleHeight = 0.02 * canvas.height;
     paddleWidth = 0.2 * canvas.width;
     paddleX = (canvas.width - paddleWidth) / 2;
     paddleY = canvas.height - (paddleHeight * 2);
+
     x = canvas.width / 2;
     y = paddleY - ballRadius;
 
@@ -318,27 +325,29 @@ function startSoundTrack() {
 }
 
 function draw() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    checkWindowSize();
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    drawScore();
-    drawLives();
-    collisionDetection();
-    ballIsInRange();
-    movePaddle();
-    startSoundTrack();
+    if (!isPause) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        checkWindowSize();
+        drawBricks();
+        drawBall();
+        drawPaddle();
+        drawScore();
+        drawLives();
+        collisionDetection();
+        ballIsInRange();
+        movePaddle();
+        startSoundTrack();
 
-    x += dx;
-    y += dy;
+        x += dx;
+        y += dy;
+    }
 }
 
 // MENU
 function chooseDificulty() {
     var buttonsContainer = document.getElementById('button-container');
 
-    buttonsContainer.addEventListener("click", function(e) {
+    buttonsContainer.addEventListener("click", function (e) {
         var clickedButton = e.target;
         var clickedButtonClass = e.target.getAttribute("class");
         var buttons = Array.prototype.slice.apply(document.getElementsByTagName('button'));
