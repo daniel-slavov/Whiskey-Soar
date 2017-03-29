@@ -133,7 +133,7 @@ function drawScore() {
 }
 
 function collisionDetection() {
-
+    var isChangedDirection = false;
     var sideZoneWidth = brickWidth / 50;
     var centralZoneWidth = (brickWidth / 25) * 24;
 
@@ -163,6 +163,12 @@ function collisionDetection() {
                     score += 10;
 
                     dx = -dx;
+                    if (!isChangedDirection) {
+                        dy = -dy;
+                        isChangedDirection = true;
+                    }
+
+
                 }
 
                 // Check if ball hits RIGHT side zone - changes the movement on the X axis
@@ -173,6 +179,10 @@ function collisionDetection() {
                     score += 10;
 
                     dx = -dx;
+                    if (!isChangedDirection) {
+                        dy = -dy;
+                        isChangedDirection = true;
+                    }
                 }
 
                 // End of the game
