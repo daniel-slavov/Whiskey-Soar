@@ -17,8 +17,8 @@ function drawPaddle() {
 function drawBricks() {
     for (col = 0; col < brickColumnCount; col += 1) {
         for (row = 0; row < brickRowCount; row += 1) {
-            var currentBrickX = brickClusterPadding + (col * brickSpacing) + (col * brickWidth);
-            var currentBrickY = brickClusterPadding + (row * brickSpacing) + (row * brickHeight);
+            var currentBrickX = canvas.width * 0.025 + (col * brickSpacingX) + (col * brickWidth);
+            var currentBrickY = canvas.height * 0.1 + (row * brickSpacingY) + (row * brickHeight);
             bricks[col][row].x = currentBrickX;
             bricks[col][row].y = currentBrickY;
 
@@ -230,12 +230,10 @@ function resizeCanvas() {
     y = paddleY - ballRadius;
 
     // Bricks
-
-    brickClusterPadding = brickClusterPaddingToCanvasWidthRatio * canvas.width;
-    brickClusterWidth = canvas.width - (2 * brickClusterPadding);
-    brickSpacing = brickClusterWidth / (((brickColumnCount) * (1 / brickSpacingToWidthRatio)) + (brickColumnCount - 1));
-    brickWidth = brickSpacing * (1 / brickSpacingToWidthRatio);
-    brickHeight = brickWidth * brickHeightToWidthRatio;
+    brickWidth = canvas.width * 0.9 / brickColumnCount;
+    brickSpacingX = canvas.width * 0.05 / (brickColumnCount - 1);
+    brickHeight = canvas.height * 0.3 / brickRowCount;
+    brickSpacingY = canvas.height * 0.05 / (brickRowCount - 1);
 }
 
 function checkWindowSize() {
